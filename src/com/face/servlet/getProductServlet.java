@@ -79,8 +79,9 @@ public class getProductServlet extends HttpServlet {
 	        double yaw_angle=Double.parseDouble(request.getParameter("yaw_angle"));
 	        double pitch_angle=Double.parseDouble(request.getParameter("pitch_angle"));
 	        double roll_angle=Double.parseDouble(request.getParameter("roll_angle"));
-		    
-		    //获取要请求的方法
+	        int productid=Integer.parseInt(request.getParameter("productid"));
+		   
+	        //获取要请求的方法
 		    String method=request.getParameter("method");
 		    switch(method)
 		    {
@@ -92,9 +93,9 @@ public class getProductServlet extends HttpServlet {
 		        Map map=getclassProductSummarize(male,age,yaw_angle,pitch_angle,roll_angle,smile);
 		    case "updateclassProduct":
 		        
-		    	int productid=Integer.parseInt(request.getParameter("productid"));
 		    	updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
-		    
+		    case "initProduct":
+		    	initProduct(productid);
 		      
 		    }
 	}
@@ -121,5 +122,10 @@ public class getProductServlet extends HttpServlet {
 	{
 		Summarize summarize=new Summarize();
 	    summarize.updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
+	}
+	private void initProduct(int productid)
+	{
+		Summarize summarize=new Summarize();
+		summarize.initProduct(productid);
 	}
 }

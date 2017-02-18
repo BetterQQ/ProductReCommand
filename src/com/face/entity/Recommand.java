@@ -2,10 +2,7 @@ package com.face.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,7 +15,6 @@ public class Recommand implements java.io.Serializable {
 	// Fields
 
 	private Integer productid;
-	private Product product;
 	private Double w1;
 	private Double w2;
 	private Double w3;
@@ -34,10 +30,9 @@ public class Recommand implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Recommand(Integer productid, Product product, Double w1, Double w2,
-			Double w3, Double w4, Double w5, Double w6, Double w7) {
+	public Recommand(Integer productid, Double w1, Double w2, Double w3,
+			Double w4, Double w5, Double w6, Double w7) {
 		this.productid = productid;
-		this.product = product;
 		this.w1 = w1;
 		this.w2 = w2;
 		this.w3 = w3;
@@ -56,16 +51,6 @@ public class Recommand implements java.io.Serializable {
 
 	public void setProductid(Integer productid) {
 		this.productid = productid;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "productid", unique = true, nullable = false, insertable = false, updatable = false)
-	public Product getProduct() {
-		return this.product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
 	}
 
 	@Column(name = "w1", nullable = false, precision = 22, scale = 0)

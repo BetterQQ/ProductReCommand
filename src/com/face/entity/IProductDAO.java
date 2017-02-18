@@ -1,7 +1,6 @@
 package com.face.entity;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Interface for ProductDAO.
@@ -92,6 +91,25 @@ public interface IProductDAO {
 	public List<Product> findByProperty(String propertyName, Object value);
 
 	public List<Product> findByName(Object name);
+
+	public List<Product> findByType(Object type);
+
+	public List<Product> findBySalesForMoon(Object salesForMoon);
+
+	public List<Product> findByCommentCount(Object commentCount);
+
+	public List<Product> findByDisNegativeCommentRate(
+			Object disNegativeCommentRate);
+
+	public List<Product> findByCollection(Object collection);
+
+	public List<Product> findByPride(Object pride);
+
+	public List<Product> findByTburl(Object tburl);
+
+	public List<Product> findByJdurl(Object jdurl);
+
+	public List<Product> findByImageUrl(Object imageUrl);
 
 	/**
 	 * Find all Product entities.

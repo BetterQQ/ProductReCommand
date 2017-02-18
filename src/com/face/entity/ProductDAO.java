@@ -1,7 +1,6 @@
 package com.face.entity;
 
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -19,6 +18,15 @@ import javax.persistence.Query;
 public class ProductDAO implements IProductDAO {
 	// property constants
 	public static final String NAME = "name";
+	public static final String TYPE = "type";
+	public static final String SALES_FOR_MOON = "salesForMoon";
+	public static final String COMMENT_COUNT = "commentCount";
+	public static final String DIS_NEGATIVE_COMMENT_RATE = "disNegativeCommentRate";
+	public static final String COLLECTION = "collection";
+	public static final String PRIDE = "pride";
+	public static final String TBURL = "tburl";
+	public static final String JDURL = "jdurl";
+	public static final String IMAGE_URL = "imageUrl";
 
 	private EntityManager getEntityManager() {
 		return EntityManagerHelper.getEntityManager();
@@ -162,6 +170,43 @@ public class ProductDAO implements IProductDAO {
 
 	public List<Product> findByName(Object name) {
 		return findByProperty(NAME, name);
+	}
+
+	public List<Product> findByType(Object type) {
+		return findByProperty(TYPE, type);
+	}
+
+	public List<Product> findBySalesForMoon(Object salesForMoon) {
+		return findByProperty(SALES_FOR_MOON, salesForMoon);
+	}
+
+	public List<Product> findByCommentCount(Object commentCount) {
+		return findByProperty(COMMENT_COUNT, commentCount);
+	}
+
+	public List<Product> findByDisNegativeCommentRate(
+			Object disNegativeCommentRate) {
+		return findByProperty(DIS_NEGATIVE_COMMENT_RATE, disNegativeCommentRate);
+	}
+
+	public List<Product> findByCollection(Object collection) {
+		return findByProperty(COLLECTION, collection);
+	}
+
+	public List<Product> findByPride(Object pride) {
+		return findByProperty(PRIDE, pride);
+	}
+
+	public List<Product> findByTburl(Object tburl) {
+		return findByProperty(TBURL, tburl);
+	}
+
+	public List<Product> findByJdurl(Object jdurl) {
+		return findByProperty(JDURL, jdurl);
+	}
+
+	public List<Product> findByImageUrl(Object imageUrl) {
+		return findByProperty(IMAGE_URL, imageUrl);
 	}
 
 	/**

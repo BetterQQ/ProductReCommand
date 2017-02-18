@@ -55,7 +55,7 @@ public class EntityManagerHelper {
 	}
 	
 	public static void log(String info, Level level, Throwable ex) {
-    	logger.log(level, info, ex);
+    	//logger.log(level, info, ex);
     }
     
 }
