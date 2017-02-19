@@ -24,14 +24,15 @@ public class SynthesisSort {
 	 */
 	public ArrayList<Product> sort(Map<Integer, Double> map,int count)
 	{
-		if(map.isEmpty()){
+		if(map.isEmpty())
+		{
 			return null;
 		}
 		//map_new是Double值前count重新组合形成的map
 		Map<Integer,Double> map_new = mapSort(map, count);
 		//新map值的商品ID，就是map中的Integer
 		Integer[] goodsIds = new Integer[map_new.size()];
-		Iterator<Integer> iterator_new = map.keySet().iterator();
+		Iterator<Integer> iterator_new = map_new.keySet().iterator();
 		for(int i =0;i<map_new.size();i++){
 			goodsIds[i] = iterator_new.next();
 		}
