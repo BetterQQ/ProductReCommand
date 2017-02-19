@@ -152,9 +152,9 @@ public class ProductDAO implements IProductDAO {
 	
 	public ArrayList<Product> findByIds(Integer...id) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(""+id);
-		for(int i=0;i<id.length;i++){
-			sb.append(","+id);
+		sb.append(""+id[0]);
+		for(int i=1;i<id.length;i++){
+			sb.append(","+id[i]);
 		}
 		String Ids = sb.toString();
 		StringBuffer sql = new StringBuffer(

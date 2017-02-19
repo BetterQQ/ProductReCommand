@@ -153,4 +153,14 @@ public class Product implements java.io.Serializable {
 		this.imageUrl = imageUrl;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", type=" + type
+				+ ", salesForMoon=" + salesForMoon + ", commentCount="
+				+ commentCount + ", disNegativeCommentRate="
+				+ disNegativeCommentRate + ", collection=" + collection
+				+ ", pride=" + pride + ", tburl=" + tburl + ", jdurl=" + jdurl
+				+ ", imageUrl=" + imageUrl + "]";
+	}
+
 }

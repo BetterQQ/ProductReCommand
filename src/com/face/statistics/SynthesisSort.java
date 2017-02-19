@@ -22,7 +22,8 @@ public class SynthesisSort {
 	 * @param count 需要前几商品个数
 	 * @return
 	 */
-	public ArrayList<Product> sort(Map<Integer, Double> map,int count){
+	public ArrayList<Product> sort(Map<Integer, Double> map,int count)
+	{
 		if(map.isEmpty()){
 			return null;
 		}
@@ -56,10 +57,12 @@ public class SynthesisSort {
 		}
 		
 		//新建排序后数据，按权重从大到小排列
-		ArrayList<Product> proSortList = mapSort(mapPro);
+		ArrayList<Product> proSortList = listSort(mapPro);
 		return proSortList;
 	}
-	private ArrayList<Product> mapSort(Map<Product,Double> mapPro) {
+	
+	private ArrayList<Product> listSort(Map<Product,Double> mapPro) 
+	{
 		ArrayList<Product> proSortList = new ArrayList<Product>();
 		Product[] scoreIndex = new Product[mapPro.size()];
 		Double[] score = new Double[mapPro.size()];
@@ -84,7 +87,9 @@ public class SynthesisSort {
 		}		
 		return proSortList;
 	}
-	private Map<Integer, Double> listSort(Map<Integer, Double> map,int count) {
+	
+	
+	private Map<Integer, Double> mapSort(Map<Integer, Double> map,int count) {
 		Map<Integer,Double> map_new = new HashMap<Integer,Double>();
 		Integer[] scoreIndex = new Integer[map.size()];
 		Double[] score = new Double[map.size()];
