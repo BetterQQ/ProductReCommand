@@ -1,9 +1,17 @@
 package com.face.entity;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.face.dbconn.DBConnection;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -140,6 +148,44 @@ public class ProductDAO implements IProductDAO {
 			EntityManagerHelper.log("find failed", Level.SEVERE, re);
 			throw re;
 		}
+	}
+	
+	public ArrayList<Product> findByIds(Integer...id) {
+		StringBuffer sb = new StringBuffer();
+		sb.append(""+id);
+		for(int i=0;i<id.length;i++){
+			sb.append(","+id);
+		}
+		String Ids = sb.toString();
+		StringBuffer sql = new StringBuffer(
+				"select * from product where Id in ("
+						+ Ids + ")");
+		Connection con = DBConnection.getDBcon();
+		ArrayList<Product> list = new ArrayList<Product>();
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql.toString());
+			while (rs.next()) {
+				Product ab = new Product();
+				ab.setId(rs.getInt("Id"));
+				ab.setName(rs.getString("Name"));
+				ab.setType(rs.getString("Type"));
+				ab.setSalesForMoon(rs.getInt("SalesForMoon"));
+				ab.setCommentCount(rs.getInt("CommentCount"));
+				ab.setDisNegativeCommentRate(rs.getFloat("DisNegativeCommentRate"));
+				ab.setCollection(rs.getInt("Collection"));
+				ab.setPride(rs.getFloat("Pride"));
+				ab.setTburl(rs.getString("TBURL"));
+				ab.setJdurl(rs.getString("JDURL"));
+				ab.setImageUrl(rs.getString("ImageURL"));
+				list.add(ab);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.closeConn(con);
+		}
+		return list;
 	}
 
 	/**
