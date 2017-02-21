@@ -2,6 +2,7 @@ package com.face.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.face.entity.Product;
 import com.face.statistics.Summarize;
+import com.face.statistics.SynthesisSort;
 
 public class getProductServlet extends HttpServlet {
 
@@ -83,6 +87,7 @@ public class getProductServlet extends HttpServlet {
 		   
 	        //获取要请求的方法
 		    String method=request.getParameter("method");
+		    String jsonData=new String();
 		    switch(method)
 		    {
 		    
@@ -90,14 +95,22 @@ public class getProductServlet extends HttpServlet {
 		    //获取对应类别的商品
 		    case "getclassProduct":
 
-		        Map map=getclassProductSummarize(male,age,yaw_angle,pitch_angle,roll_angle,smile);
-		    case "updateclassProduct":
+		         Map map=getclassProductSummarize(male,age,yaw_angle,pitch_angle,roll_angle,smile);
+		         SynthesisSort synthesisSort=new SynthesisSort();
+		         jsonData=JSON.toJSONString(synthesisSort.sort(map, 5));
 		        
-		    	updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
+		    //更新商品权值,无返回
+		    case "updateclassProduct":
+		    	 updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
+		   
+		    //初始化权值,无返回。
 		    case "initProduct":
 		    	initProduct(productid);
 		      
 		    }
+			
+		 
+		    response.getWriter().write(jsonData);
 	}
 
 	/**

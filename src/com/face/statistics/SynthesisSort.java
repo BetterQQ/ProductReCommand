@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.face.entity.Product;
 import com.face.entity.ProductDAO;
+
 
 /**
  * 对于商品的综合排序类
@@ -59,6 +61,7 @@ public class SynthesisSort {
 		
 		//新建排序后数据，按权重从大到小排列
 		ArrayList<Product> proSortList = listSort(mapPro);
+		
 		return proSortList;
 	}
 	
