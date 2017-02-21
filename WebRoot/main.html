@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>主页</title>
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="./css/compiled/main.css">
+		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js">
+		</script>
+	     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js">
+	     </script>
+		<script src="js/echarts.js" ></script>
+		<script src="./jquery-3.1.1.js"></script>
+		<script src="js/event.js"></script>
+
+		<style>
+			.FROM
+			{
+				-webkit-transform: translateX(100%);
+				-ms-transform: scale(0.5);
+				-o-transform: scale(0.5);
+				transform: scale(0.5);
+				opacity: 0;
+				-webkit-transition: all 500ms;
+				-o-transition: 500ms;
+				transition: 500ms;
+			}
+
+			.TO
+			{
+				-webkit-transform: translateX(0);
+				-ms-transform: scale(1);
+				-o-transform: scale(1);
+				transform: scale(1);
+				opacity: 1;
+				visibility: visible;
+			}
+		</style>
+	</head>
+    <body>
+		<script src="js/main.js"></script>
+		<!-- header-->
+		<div class="header">
+				<p class="dataview">
+					<span><img src="img/images/range.png" class="pot potrun">品质保证</span>
+					<span><img src="img/images/range.png" class="pot potrun">良心推荐</span>
+					<span><img src="img/images/range.png" class="pot potrun">省时省力</span>
+				</p>
+				<a href="main.html"><img src="img/images/logo_orange.png" class="logo"></a>
+		</div>
+		<!--导航栏-->
+		<div class="navigation_bar">
+			<div class="menu">
+				<ul class="list">
+					<li><a href="main.html" class="active">首页</a></li>
+				</ul>
+			</div>
+		</div>
+		<!--主体-->
+		<div class="mainbody">
+		    <!--左边人脸识别部分-->
+			<div class="leftpart">
+				<div class="bg_gray">
+					<div class="bg_lightGray">
+						<div class="camera">
+							<video id="video" autoplay></video>
+							<!--<button id="snap">Snap Photo</button>-->
+							<canvas id="canvas" width="290" height="290"></canvas>
+						</div>
+					</div>
+				</div>
+
+				<div class="user_state">
+					<table class="table table-striped">
+						<tbody id="mytbody">
+							<tr>
+								<td>性別：</td>
+								<td id="sex" onload="update(data)"></td>
+							</tr>
+							<tr>
+								<td>年龄：</td>
+								<td id="age" onload="update(data)"></td>
+							</tr>
+							<tr>
+								<td>微笑指数：</td>
+								<td id="emoji" onload="update(data)"></td>
+							</tr>
+							<tr>
+								<td>眼镜：</td>
+								<td id="glass" onload="update(data)"></td>
+							</tr>
+							<tr>
+								<td>摇头指数：</td>
+								<td id="yaw" onload="update(data)"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!--右边商品推荐部分-->
+			<div class="rightpart">
+				<div id="display_board">
+					 <!--隐藏图标-->
+					 <div  id="imgReturn"><img src="img/return.png" style="width: 50px;height: 50px;" onclick="Refle()"></div>
+					 <div  id="imgLeft" ><img src="img/images/button_pre.png" onclick="Pre(),Change(Imgjson[currImage])"></div>
+					 <div  id="imgRight"><img src="img/images/button_next.png" onclick="Next(),Change(Imgjson[currImage])"></div>
+					 <!--商品推荐-->
+					  <div id="display_graphic">
+						 <span class="prev" style="background: url(img/images/button_pre.png) left bottom no-repeat" onclick="Pre()" ></span>
+						 <span class="next" style="background: url(img/images/button_next.png) right bottom no-repeat" onclick="Next()"></span>
+						 <ul class="goods_image">
+
+							 <li class="g_image1">
+								 <a><img class="image" src="img/Advertisement/bsry.jpg" alt="" onclick="Change('json/hs.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>韩束</span>
+									 <a class="imgs_button">分享</a>
+								 </p>
+							 </li>
+							 <li class="g_image2">
+								 <a href="#"><img class="image" src="img/Advertisement/shortsleeve.jpg" alt="" onclick="Change('json/shortsleeve.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>浅蓝色短衫</span>
+									 <a class="imgs_button" href="#">分享</a>
+								 </p>
+							 </li>
+							 <li class="g_image3">
+								 <a href="#"><img class="image" src="img/Advertisement/yrf.jpg" alt="" onclick="Change('json/yrf.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>羽绒服</span>
+									 <a class="imgs_button" href="#">分享</a>
+								 </p>
+							 </li>
+							 <li class="g_image4">
+								 <a href="#"><img class="image" src="img/Advertisement/DanBaiFen.jpg" alt="" onclick="Change('json/DanBaiFen.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>蛋白粉</span>
+									 <a class="imgs_button" href="#">分享</a>
+								 </p>
+							 </li>
+							 <li class="g_image5">
+								 <a href="#"><img class="image" src="img/Advertisement/LG_4KTV.jpg" alt="" onclick="Change('json/LG_4KTV.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>LG电视机 </span>
+									 <a class="imgs_button" href="#">分享</a>
+								 </p>
+							 </li>
+							 <li class="g_image6">
+								 <a href="#"><img class="image" src="img/Advertisement/fss.jpg" alt="" onclick="Change('json/fss.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>防晒霜</span>
+									 <a class="imgs_button" href="#">分享</a>
+								 </p>
+							 </li>
+							 <li class="g_image7">
+								 <a href="#"><img class="image" src="img/Advertisement/IPhone6s.jpg" alt="" onclick="Change('json/IPhone6s.json')"></a>
+								 <p style="background: url(img/images/float-bg.png) repeat">
+									 <span>IPhone6s</span>
+									 <a class="imgs_button" href="#">分享</a>
+								 </p>
+							 </li>
+						 </ul>
+
+						 <div class="price_recom">
+							 <!--今日价格-->
+							 <div id="lefthead">今日价格:</div>
+							 <div id="leftbody">
+								 <div><img src="img/tblogo.png"  class="xlogo"/>淘宝   ￥280</div>
+								 <div><img src="img/jdlogo.png" class="xlogo"/>京东   ￥360</div>
+								 <div><img src="img/amazonlogo.jpg" class="xlogo"/>亚马逊   ￥400</div>
+							 </div>
+
+							 <!--商品推荐-->
+							 <div id="rightbody">
+								 <div>
+									 根据店铺可信度,买家评论等<br>
+									 数据信息，推荐您去<br>
+
+									 <a href="https://item.taobao.com/item.htm?spm=a219r.lm874.14.130.ETgWc8&id=539888324153&ns=1&abbucket=11" target="_blank" style="text-decoration: none">
+										 <img src="img/tblogo.png" class="xlogo"/>淘宝
+									 </a>商城购买
+								 </div>
+							 </div>
+							 <div id="righthead">商品推荐:</div>
+
+							 <!--点击查看走势图-->
+							 <div style="float: left;clear: both;font-size: 5px;margin-left: 90px">该商品点击可查看价格走势图</div>
+							 <div style="clear: both"></div>
+						 </div>
+
+
+					 </div>
+				</div>
+			</div>
+		</div>
+		    <!--footer-->
+			<div class="footer">
+				<div class="boundary"> </div>
+				<p>版权所有 © 2016 university south of china 南华大学计算机学院503</p>
+			</div>
+
+		<script src="js/camera.js"></script>
+
+		<script>
+			var _hmt = _hmt || [];
+			(function() { var hm = document.createElement("script"); 
+			hm.src = "//hm.baidu.com/hm.js?cc58f09bfb6ccacac51c4e5d7787d7d0"; 
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);})();
+		</script>
+	</body>
+</html>
