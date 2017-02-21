@@ -1,0 +1,63 @@
+h4 {
+    font-size: 30px;
+    line-height: 40px;
+    height: 40px;
+    color: #666;
+}
+
+#category td:last-child,
+#brand td:last-child,
+#product td:last-child,
+#location td:last-child {
+    text-align: right;
+}
+
+.brand-card {
+    background-color: #66CCFF;
+}
+
+.brand-symbol {
+    height: 170px;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 15px;
+}
+
+.brand-symbol i {
+    color: #fff;
+    font-size: 100px;
+}
+
+.brand-color {
+    background: #FF6666;
+}
+
+.brand-card {
+    text-align: center;
+}
+
+.brand-table {
+    border: 0;
+    font-size: 20px;
+    background-color: white;
+}
+
+.brand-card {
+    height: 400px;
+    text-align: center;
+}
+
+#peopleflow {
+    height: 400px;
+}
+
+#preference,
+#watch-number {
+    height: 360px;
+}
+
+#play-span,
+#gender-age {
+    height: 360px;
+}

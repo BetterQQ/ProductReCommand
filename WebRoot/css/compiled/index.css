@@ -1,0 +1,118 @@
+.page-header {
+    border-bottom-color: #009999;
+    color: #6699CC;
+}
+
+h4 {
+    font-size: 30px;
+    line-height: 40px;
+    height: 40px;
+    color: #666;
+}
+
+#category td:last-child,
+#brand td:last-child,
+#product td:last-child,
+#location td:last-child {
+    text-align: right;
+}
+
+.panel-body {
+    background-color: #66CCFF;
+}
+
+.brand-symbol {
+    height: 200px;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding: 40px 15px;
+}
+
+.brand-symbol i {
+    color: #fff;
+    font-size: 100px;
+}
+
+.brand-color {
+    background: #FF6666;
+}
+
+.brand-card {
+    text-align: center;
+}
+
+.brand-table {
+    border: 0;
+    font-size: 20px;
+    background-color: white;
+}
+
+.brand-table tr {
+    height: 50px;
+}
+
+#ad img {
+    width: 640px;
+    height: 480px;
+}
+
+#ad,
+#face {
+    text-align: center;
+}
+
+
+/* responsive */
+
+@media (max-width: 767px) {
+    #main-stats {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    #pad-wrapper .ui-elements .knobs {
+        text-align: center;
+    }
+    #pad-wrapper .ui-elements .knobs .knob-wrapper {
+        float: inherit;
+    }
+    #pad-wrapper .ui-elements .showcase {
+        text-align: center;
+    }
+    #pad-wrapper .table-products .table .img {
+        display: none;
+    }
+    #pad-wrapper .table-products .table input[type="checkbox"] {
+        margin-right: 10px;
+    }
+    #pad-wrapper .table-products .table .label {
+        display: none;
+    }
+}
+
+@media (max-width: 979px) {
+    #main-stats .stat .data {
+        padding-right: 17px;
+    }
+    #pad-wrapper .knob-wrapper .info {
+        display: none;
+    }
+    .pointer {
+        top: 5%;
+    }
+}
+
+@media (min-width: 980px) {
+    #pad-wrapper .ui-elements .knob-wrapper + .knob-wrapper {
+        margin-left: 5px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #pad-wrapper .ui-elements .showcase {
+        width: 53%;
+    }
+    #pad-wrapper .ui-elements .knob-wrapper + .knob-wrapper {
+        margin-left: 35px;
+    }
+}

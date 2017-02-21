@@ -1,0 +1,10 @@
+#man,
+#woman {
+    height: 800px;
+}
+
+.page-header {
+    margin-top: 10px;
+    border-bottom-color: #009999;
+    color: #6699CC;
+}

@@ -1,0 +1,121 @@
+h4 {
+    font-size: 30px;
+    line-height: 40px;
+    height: 40px;
+    color: #666;
+}
+
+.widget-header {
+    background-color: #efefef;
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    min-height: 51px;
+    border: 1px solid #DDDDDD;
+    margin-left: 15px;
+}
+
+.widget-header > i {
+    font-size: 16px;
+    padding: 15px 10px 15px 11px;
+    text-align: center;
+    width: 40px;
+}
+
+.widget-header a {
+    color: #777777;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 0 0 8px;
+    text-decoration: none;
+}
+
+.widget-header {
+    background-color: #efefef;
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
+    border-radius: 3px 3px 0 0;
+    min-height: 51px;
+    border: 1px solid #DDDDDD;
+}
+
+.widget-body {
+    padding: 0;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    border-color: #ccc;
+    background-color: #fff;
+}
+
+.border-head h3 {
+    border-bottom: 1px solid #c9cdd7;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    font-weight: normal;
+    font-size: 18px;
+    display: inline-block;
+    width: 100%;
+    font-weight: 300;
+}
+
+.brand-card {
+    background-color: #66CCFF;
+}
+
+.brand-symbol {
+    height: 170px;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 15px;
+}
+
+.brand-symbol i {
+    color: #fff;
+    font-size: 100px;
+}
+
+.brand-color {
+    background: #FF6666;
+}
+
+.brand-card {
+    text-align: center;
+}
+
+.brand-table {
+    border: 0;
+    font-size: 20px;
+    background-color: white;
+}
+
+#category td:last-child,
+#brand td:last-child,
+#product td:last-child,
+#location td:last-child {
+    text-align: right;
+}
+
+.brand-card {
+    height: 400px;
+    text-align: center;
+}
+
+.carousel-inner img {
+    margin: 0 auto;
+}
+
+#peopleflow {
+    height: 350px;
+}
+
+#gender,
+#age {
+    height: 360px;
+}
+
+#preference,
+#watch-number {
+    height: 360px;
+}
