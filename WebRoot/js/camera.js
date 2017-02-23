@@ -7,7 +7,8 @@ var aVideo=document.getElementById('video');
 var aCanvas=document.getElementById('canvas');
 //得到内容
 var ctx=aCanvas.getContext('2d');
-
+var token1 = ['',''];
+var token2 = ['',''];
 
 //获取媒体对象（这里指摄像头）
 navigator.getUserMedia  = navigator.getUserMedia ||
@@ -67,10 +68,21 @@ function mytest()
         type: 'POST',
         success: function (data)
         {
-//            console.log(data);
-            var faces=data.faces;
-            update(data);
-            //sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,aclass);
+        	
+        	var faces=data.faces; 
+        	
+        	//console.log(data); 
+        	if(faces.length>0){
+        		updateFaceInfo(data);
+        		
+        		token2[cur]=faces[0].face_token;
+            	if(token1[cur]==""){
+            		token1[cur] = token2[cur];
+            	}
+            	compare(faces);
+            	
+        	}
+          
             
             for(var i=0;i<faces.length;i++)
             {
@@ -79,13 +91,10 @@ function mytest()
                 if(typeof(afaces) == "undefined")return;
 
                 var face_rectangle=afaces.face_rectangle;
-
                 ctx.strokeStyle="blue";
                 ctx.strokeRect(face_rectangle.left,face_rectangle.top,face_rectangle.width,face_rectangle.height);
 
-
                 var method="updateclassProduct";
-
                 var aclass="1";
                 var yaw_angle=afaces.attributes.headpose.yaw_angle;
                 var pitch_angle=afaces.attributes.headpose.pitch_angle;
@@ -93,7 +102,6 @@ function mytest()
                 var smile=afaces.attributes.smile.value;
                 var age=afaces.attributes.age.value;
                 var male=afaces.attributes.gender.value=="Female"?0:1;
-
                 sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,aclass);
             }
 
@@ -104,6 +112,50 @@ function mytest()
 };
 
 
+function compare(faces){
+	
+	
+	var formdata = new FormData();
+    formdata.append("api_key",api_key[cur]);
+    formdata.append("api_secret",api_secret[cur]);
+    formdata.append("face_token1",token1[cur]);
+    formdata.append("face_token2",token2[cur]);
+    //console.log("taken1---"+token1+"-----taken2---"+token2);
+    console.log(formdata);
+    token1[cur] = token2[cur];
+    $.ajax
+	({
+		url:'https://api-cn.faceplusplus.com/facepp/v3/compare',
+		data: formdata,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType:"json",
+        type: 'POST',
+        success: function (data){
+        	//console.log(data);
+        	var confidence = data.confidence;
+        	var thresholds = data.thresholds["1e-3"];
+        	
+        	if(confidence>thresholds){
+        		return;
+        	}else{
+        		var afaces = faces[0];
+        		var method="getclassProduct";
+        		var yaw_angle=afaces.attributes.headpose.yaw_angle;
+                var pitch_angle=afaces.attributes.headpose.pitch_angle;
+                var roll_angle=afaces.attributes.headpose.roll_angle;
+                var smile=afaces.attributes.smile.value;
+                var age=afaces.attributes.age.value;
+                var male=afaces.attributes.gender.value=="Female"?0:1;
+                sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male);
+           	}
+        },
+        error: function (data){
+        	console.log(data);
+        }
+	});
+}
 
 
 function dataURItoBlob(dataURI, callback)
@@ -147,7 +199,7 @@ function getAsJPEGBlob(canvas)
 
 function sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,aclass)
 {
-
+	
     var data=("method="+method);
     data+=("&yaw_angle="+yaw_angle);
     data+=("&pitch_angle="+pitch_angle);
@@ -157,7 +209,6 @@ function sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,ac
     data+=("&male="+male);
     data+=("&class="+aclass);
     data+=("&productid="+"1");
-
     var xmlhttp;
     if (window.XMLHttpRequest)
     {
@@ -174,15 +225,26 @@ function sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,ac
     {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
         {
-            console.log("OK");
+        	//String productInfo = data;
+            //cosole.log(productInfo);
+            //if(productInfo.length == 0){
+            	//return;
+            //}else{
+            	//updateProductInfo();
+            //}
+        	if(method=="getclassProduct"){
+        		console.log(1111);
+        		var result = data.target.responseText;
+        		//JSONObject resultJson = JSONObject.fromObject(result);
+        		updateHTML(result);
+                console.log(result);
+        	}
         }
     };
     xmlhttp.send(data);
-
 }
 
-
-function update(data) {
+function updateFaceInfo(data) {
     document.getElementById("sex").innerHTML=data.faces[0].attributes.gender.value;
 //    console.log(data.faces[0].attributes.gender.value);
     document.getElementById("age").innerHTML=data.faces[0].attributes.age.value;
@@ -214,8 +276,19 @@ function update(data) {
        ||(-50<=data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<-40)){
        document.getElementById("yaw").innerHTML="5";
    }
-   // document.getElementById("yaw").innerHTML=data.faces[0].attributes.headpose.yaw_angle;
-   //sendDataOpera();
 }
 
+function updateProductInfo(){
+	
+}
+function updateHTML(jsons){
+	var arr = eval(jsons);
+	for(var i=0; i<arr.length; i++){
+		var goodsImg = document.getElementById("goodsImg"+i);
+		var goodsName = document.getElementById("goodsName"+i);
+		var jsonObj = arr[i]; //获取json对象
+		goodsImg.src = "./image/"+jsonObj.imageUrl+".jpg";
+		goodsName.innerHTML = jsonObj.name;
+	}
+}
 setInterval(mytest,280);

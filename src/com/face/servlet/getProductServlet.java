@@ -71,7 +71,6 @@ public class getProductServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException 
 	{
-
 		
 	      	response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
@@ -85,32 +84,30 @@ public class getProductServlet extends HttpServlet {
 	        double roll_angle=Double.parseDouble(request.getParameter("roll_angle"));
 	        int productid=Integer.parseInt(request.getParameter("productid"));
 		   
-	        //»ñÈ¡ÒªÇëÇóµÄ·½·¨
+	        //ï¿½ï¿½È¡Òªï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 		    String method=request.getParameter("method");
 		    String jsonData=new String();
 		    switch(method)
 		    {
-		    
-
-		    //»ñÈ¡¶ÔÓ¦Àà±ðµÄÉÌÆ·
+		    //ï¿½ï¿½È¡ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
 		    case "getclassProduct":
-
 		         Map map=getclassProductSummarize(male,age,yaw_angle,pitch_angle,roll_angle,smile);
 		         SynthesisSort synthesisSort=new SynthesisSort();
 		         jsonData=JSON.toJSONString(synthesisSort.sort(map, 5));
-		        
-		    //¸üÐÂÉÌÆ·È¨Öµ,ÎÞ·µ»Ø
+		         response.getWriter().write(jsonData);
+		         break;
+		    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·È¨Öµ,ï¿½Þ·ï¿½ï¿½ï¿½
 		    case "updateclassProduct":
 		    	 updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
-		   
-		    //³õÊ¼»¯È¨Öµ,ÎÞ·µ»Ø¡£
+		    	 break;
+		    	 //ï¿½ï¿½Ê¼ï¿½ï¿½È¨Öµ,ï¿½Þ·ï¿½ï¿½Ø¡ï¿½
 		    case "initProduct":
 		    	initProduct(productid);
-		      
+		    	break;
 		    }
 			
 		 
-		    response.getWriter().write(jsonData);
+		    
 	}
 
 	/**
