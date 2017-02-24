@@ -112,9 +112,9 @@ public class Summarize
            pitch_angle=pitch_angle/20.0;
            roll_angle=roll_angle/20.0;
 		   
-		   
+		  
 		   double ans=smile*w1+amale*w2+aage*w3+ yaw_angle*w4+pitch_angle*w5+roll_angle*w6+w7;
-
+           
 		   double uprate=learning_rate*(ans-y);
 
 		   System.out.println("uprate->"+uprate+"  "+"ans->"+" "+ans);
@@ -224,8 +224,9 @@ public class Summarize
    private int sigmod(double smile,double roll_angle)
    {
 	   
+	   System.out.println(smile+" "+roll_angle);
 	   roll_angle=reg(roll_angle);
-	   double x=(0.21*smile-1.2*roll_angle)/10.0;
+	   double x=(0.25*smile-1.2*roll_angle)/10.0;
 	   double ans=1.0/(1+Math.exp(-x));
 	   
 	   if(ans<=0.2)return 1;//²»ÂúÒâ

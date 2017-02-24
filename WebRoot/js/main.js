@@ -1,6 +1,6 @@
 function ZoomPic ()
 {
-	this.initialize.apply(this, arguments)	
+	this.initialize.apply(this, arguments)
 }
 ZoomPic.prototype = 
 {

@@ -84,23 +84,23 @@ public class getProductServlet extends HttpServlet {
 	        double roll_angle=Double.parseDouble(request.getParameter("roll_angle"));
 	        int productid=Integer.parseInt(request.getParameter("productid"));
 		   
-	        //��ȡҪ����ķ���
+	  
 		    String method=request.getParameter("method");
 		    String jsonData=new String();
 		    switch(method)
 		    {
-		    //��ȡ��Ӧ������Ʒ
+		 
 		    case "getclassProduct":
 		         Map map=getclassProductSummarize(male,age,yaw_angle,pitch_angle,roll_angle,smile);
 		         SynthesisSort synthesisSort=new SynthesisSort();
 		         jsonData=JSON.toJSONString(synthesisSort.sort(map, 5));
 		         response.getWriter().write(jsonData);
 		         break;
-		    //������ƷȨֵ,�޷���
+		 
 		    case "updateclassProduct":
-		    	 updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
-		    	 break;
-		    	 //��ʼ��Ȩֵ,�޷��ء�
+		    	  updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
+		    	  break;
+		    	
 		    case "initProduct":
 		    	initProduct(productid);
 		    	break;

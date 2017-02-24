@@ -233,7 +233,6 @@ function sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,ac
             	//updateProductInfo();
             //}
         	if(method=="getclassProduct"){
-        		console.log(1111);
         		var result = data.target.responseText;
         		//JSONObject resultJson = JSONObject.fromObject(result);
         		updateHTML(result);

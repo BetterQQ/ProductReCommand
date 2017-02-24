@@ -17,7 +17,9 @@ import com.face.entity.ProductDAO;
  */
 public class SynthesisSort {
 	//经过AHP分权值法，得到权值数据，依次为月成交量、评论量、非差评率、收藏量、价格倒数
-	Double[] WEIGHTS = {1.808967033,1.070093554,0.727268326,0.341809632,1.051861455};
+	Double[] WEIGHTS = {0.910607876 ,0.495384298 ,1.566408053,0.240738696 ,0.587864408 ,2.198996669};
+	Double[] PARAMETERS_MAX = {100000.0,10000.0,1.0,10000.0,1.0,100.0};
+	Double[] PARAMETERS_MIN = {0.0,0.0,0.0,0.0,0.0,0.0};
 	/**
 	 * 通过输入无序的map数据，与想要获得综合排名最好的前count个商品，通过排序，可以得到最终权值从大到小的一个商品队列，越靠前，权值越高
 	 * @param map 原始数据map
@@ -51,11 +53,12 @@ public class SynthesisSort {
 		//得到prolist的最终权值数据
 		Map<Product,Double> mapPro = new HashMap<Product,Double>();
 		for (Product product : ProList) {
-			Double weight = product.getSalesForMoon()*WEIGHTS[0]
-					+ product.getCommentCount()*WEIGHTS[1]
-							+ product.getDisNegativeCommentRate()*WEIGHTS[2]
-									+product.getCollection()*WEIGHTS[3]
-											+(1/product.getPride())*WEIGHTS[4];
+			Double weight = normalization(PARAMETERS_MAX[0], PARAMETERS_MIN[0], product.getSalesForMoon()) *WEIGHTS[0]
+					+ normalization(PARAMETERS_MAX[0], PARAMETERS_MIN[0],product.getCommentCount())*WEIGHTS[1]
+							+ normalization(PARAMETERS_MAX[0], PARAMETERS_MIN[0],product.getDisNegativeCommentRate())*WEIGHTS[2]
+									+normalization(PARAMETERS_MAX[0], PARAMETERS_MIN[0],product.getCollection())*WEIGHTS[3]
+											+normalization(PARAMETERS_MAX[0], PARAMETERS_MIN[0],(1/product.getPride()))*WEIGHTS[4]
+													+normalization(PARAMETERS_MAX[0], PARAMETERS_MIN[0],map_new.get(product.getId()))*WEIGHTS[5];
 			mapPro.put(product,weight);
 		}
 		
@@ -117,5 +120,13 @@ public class SynthesisSort {
 			score[jIndex] = -100.0;
 		}		
 		return map_new;
+	}
+	
+	public Double normalization(double max,double min,double val)
+	{
+		if(val>=max){
+			return 1.0;
+		}
+		return Math.abs((val-min)/(max-min));
 	}
 }
