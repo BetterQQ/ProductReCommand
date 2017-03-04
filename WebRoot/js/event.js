@@ -1,8 +1,8 @@
 /**
- * Created by ���� on 2017/2/16.
+ * Created by 锟斤拷锟斤拷 on 2017/2/16.
  */
-//����ͼƬ
-var currImage=2;
+//锟斤拷锟斤拷图片
+var currImage=0;
 var Imgsrc=["img/Advertisement/bsry.jpg","img/Advertisement/shortsleeve.jpg",
     "img/Advertisement/yrf.jpg","img/Advertisement/DanBaiFen.jpg",
     "img/Advertisement/LG_4KTV.jpg","img/Advertisement/fss.jpg",
@@ -13,9 +13,9 @@ var Imgjson=["json/hs.json","json/shortsleeve.json",
     "json/LG_4KTV.json","json/fss.json",
     "json/IPhone6s.json"
 ];
-var Imgname=["����","ǳ��ɫ����","���޷�","���׷�","LG���ӻ�","��ɹ˪","IPhone6s"];
+var Imgname=["锟斤拷锟斤拷","浅锟斤拷色锟斤拷锟斤拷","锟斤拷锟睫凤拷","锟斤拷锟阶凤拷","LG锟斤拷锟接伙拷","锟斤拷晒霜","IPhone6s"];
 
-//Ԥ�Ȼ���ͼƬ
+//预锟饺伙拷锟斤拷图片
 var Img=new Array(7);
 for(var i=0;i<7;i++)
 {
@@ -29,16 +29,19 @@ var imglrshow=false;
     {
         currImage--;
         if(currImage<0) currImage=6;
-        //ע���Ƿ�ɹ�
-        console.log(currImage);
+
+        //注锟斤拷锟角凤拷晒锟�
+        //console.log(currImage);
     }
 function Next()
 {
     currImage++;
     currImage%=7;
-    //ע���Ƿ�ɹ�
-    console.log(currImage);
+
+    //注锟斤拷锟角凤拷晒锟�
+    //console.log(currImage);
 }
+
 function  ClearChild(parent)
 {
     while(parent.hasChildNodes())
@@ -48,7 +51,7 @@ function  ClearChild(parent)
 }
 
 
-/*���غ�ͻ��Ч��*/
+/*锟斤拷锟截猴拷突锟斤拷效锟斤拷*/
 function show(id)
 {
     $(id).show();
@@ -89,12 +92,12 @@ function Change(dataroot)
         url: dataroot,
         success: function (data)
         {
-            //����沿ͼ
+            //锟斤拷锟斤拷娌客�
             var parent=document.getElementById("face");
             ClearChild(parent);
             parent.appendChild(Img[currImage]);
 
-            //��������ͼ
+            //锟斤拷锟斤拷锟斤拷锟酵�
             parent=document.getElementById('display_graphic');
             ClearChild(parent);
 
@@ -102,7 +105,7 @@ function Change(dataroot)
 
             option = {
                 title: {
-                    text: data[0].name+'�۸�����ͼ'
+                    text: data[0].name+'锟桔革拷锟斤拷锟斤拷图'
                 },
                 backgroundColor:"rgba(255,255,255,0.6)",
                 tooltip: {
@@ -132,14 +135,14 @@ function Change(dataroot)
                     type: 'value',
                     axisLabel :
                     {
-                        formatter: '{value} Ԫ'
+                        formatter: '{value} 元'
                     }
                 },
                 series:data[2].price
             };
             myChart.setOption(option);
 
-            //����������Ϣ
+            //锟斤拷锟斤拷锟斤拷锟斤拷息
 
             parent=document.getElementById("mytbody");
             var son=parent.getElementsByTagName("tr");
@@ -150,26 +153,26 @@ function Change(dataroot)
                 ClearChild(son[i]);
             }
 
-            //��Ʒ����
+            //锟斤拷品锟斤拷锟�
             var td1=document.createElement("td");
-            td1.innerHTML="��Ʒ����:  ";
+            td1.innerHTML="锟斤拷品锟斤拷锟�  ";
             var td2=document.createElement("td");
             td2.innerHTML=data[0].name;
             son[0].appendChild(td1);
             son[0].appendChild(td2);
 
-            //�۸�Χ
+            //锟桔革拷围
             var td3=document.createElement("td");
-            td3.innerHTML="�۸�Χ:  ";
+            td3.innerHTML="锟桔革拷围:  ";
             var td4=document.createElement("td");
             td4.innerHTML=data[4].rangeprice;
             son[1].appendChild(td3);
             son[1].appendChild(td4);
 
 
-            //�Ƽ�ƽ̨
+            //锟狡硷拷平台
             var td5=document.createElement("td");
-            td5.innerHTML="�Ƽ�ƽ̨:  ";
+            td5.innerHTML="锟狡硷拷平台:  ";
             var td6=document.createElement("td");
             var str="";
             for(var i=0;i<data[3].plat.length;i++)

@@ -1,6 +1,6 @@
 ﻿var api_key=['dgvRz8kU7IAgILjNkeJJmrYdFyG6Fi0T','e65k1-w14PVwhEUowvFGagNw43yAtQuw'];
 var api_secret=['-YLsKW2ygqM55yMfkveE-taxQBe5icdN','V1fqZfOeJ0J26yp87iTZapCuWWI5VL5X'];
-var cur=1;
+var cur_final=1;
 //获取当前视频
 var aVideo=document.getElementById('video');
 //获取canvas画布
@@ -9,7 +9,7 @@ var aCanvas=document.getElementById('canvas');
 var ctx=aCanvas.getContext('2d');
 var token1 = ['',''];
 var token2 = ['',''];
-
+var productResult;
 //获取媒体对象（这里指摄像头）
 navigator.getUserMedia  = navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
@@ -36,6 +36,9 @@ function noStream(err)
 
 function mytest()
 {
+	cur_final^=1;
+	var cur = cur_final;
+	//var thisdata;
     ctx.drawImage(aVideo, 0, 0, 640, 480);//将获取视频绘制在画布上
 
 
@@ -54,8 +57,8 @@ function mytest()
     formdata.append("return_landmark","1");
     formdata.append("return_attributes",'gender,age,smiling,glass,headpose,facequality,blur');
     formdata.append("image_file",newblob);
-    cur^=1;
-
+    
+    //console.log(formdata);
 
     $.ajax
     ({
@@ -66,62 +69,50 @@ function mytest()
         processData: false,
         dataType:"json",
         type: 'POST',
+        //async:false,
         success: function (data)
         {
-        	
-        	var faces=data.faces; 
-        	
+//        	thisdata = data;
+        	var faces=data.faces;
         	//console.log(data); 
         	if(faces.length>0){
         		updateFaceInfo(data);
-        		
         		token2[cur]=faces[0].face_token;
             	if(token1[cur]==""){
             		token1[cur] = token2[cur];
             	}
-            	compare(faces);
-            	
+            	//console.log("detect---->cur="+cur+"--face1="+token1[cur]+"----face2="+token2[cur]);
+            	compare(faces,cur);
         	}
-          
-            
-            for(var i=0;i<faces.length;i++)
-            {
-
-                var afaces=faces[i];
-                if(typeof(afaces) == "undefined")return;
-
-                var face_rectangle=afaces.face_rectangle;
-                ctx.strokeStyle="blue";
-                ctx.strokeRect(face_rectangle.left,face_rectangle.top,face_rectangle.width,face_rectangle.height);
-
-                var method="updateclassProduct";
-                var aclass="1";
-                var yaw_angle=afaces.attributes.headpose.yaw_angle;
-                var pitch_angle=afaces.attributes.headpose.pitch_angle;
-                var roll_angle=afaces.attributes.headpose.roll_angle;
-                var smile=afaces.attributes.smile.value;
-                var age=afaces.attributes.age.value;
-                var male=afaces.attributes.gender.value=="Female"?0:1;
-                sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,aclass);
-            }
-
+        	for(var i=0;i<faces.length;i++)
+              {
+                  var afaces=faces[i];
+                  if(typeof(afaces) == "undefined")return;
+                  var face_rectangle=afaces.face_rectangle;
+                  ctx.strokeStyle="blue";
+                  ctx.strokeRect(face_rectangle.left,face_rectangle.top,face_rectangle.width,face_rectangle.height);
+                  updateFaceData(afaces);
+              }
+        },
+        error:function(data){
+        	thisdata = data;
         }
-
     });
-
 };
 
-
-function compare(faces){
-	
-	
+function compare(faces,cur){
+	if(token1[cur] == token2[cur]){
+		faceChangeUpdate(faces);
+		return;
+	}
 	var formdata = new FormData();
     formdata.append("api_key",api_key[cur]);
     formdata.append("api_secret",api_secret[cur]);
     formdata.append("face_token1",token1[cur]);
     formdata.append("face_token2",token2[cur]);
     //console.log("taken1---"+token1+"-----taken2---"+token2);
-    console.log(formdata);
+    //console.log(formdata);
+    //console.log("compare---->cur="+cur+"--face1="+token1[cur]+"----face2="+token2[cur]);
     token1[cur] = token2[cur];
     $.ajax
 	({
@@ -140,29 +131,29 @@ function compare(faces){
         	if(confidence>thresholds){
         		return;
         	}else{
-        		var afaces = faces[0];
-        		var method="getclassProduct";
-        		var yaw_angle=afaces.attributes.headpose.yaw_angle;
-                var pitch_angle=afaces.attributes.headpose.pitch_angle;
-                var roll_angle=afaces.attributes.headpose.roll_angle;
-                var smile=afaces.attributes.smile.value;
-                var age=afaces.attributes.age.value;
-                var male=afaces.attributes.gender.value=="Female"?0:1;
-                sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male);
+        		faceChangeUpdate(faces);
            	}
         },
-        error: function (data){
-        	console.log(data);
+        error:function(data){
         }
 	});
 }
-
+function faceChangeUpdate(faces){
+	var afaces = faces[0];
+	var method="getclassProduct";
+	var yaw_angle=afaces.attributes.headpose.yaw_angle;
+    var pitch_angle=afaces.attributes.headpose.pitch_angle;
+    var roll_angle=afaces.attributes.headpose.roll_angle;
+    var smile=afaces.attributes.smile.value;
+    var age=afaces.attributes.age.value;
+    var male=afaces.attributes.gender.value=="Female"?0:1;
+    sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male);
+}
 
 function dataURItoBlob(dataURI, callback)
 {
     // convert base64 to raw binary data held in a string
     // doesn't handle URLEncoded DataURIs
-
     var byteString;
     if (dataURI.split(',')[0].indexOf('base64') >= 0)
     {
@@ -170,17 +161,14 @@ function dataURItoBlob(dataURI, callback)
     } else {
         byteString = unescape(dataURI.split(',')[1]);
     }
-
     // separate out the mime component
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
     // write the bytes of the string to an ArrayBuffer
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
-
     var blob=new Blob([ab],{type:mimeString});
     return blob;
 }
@@ -233,48 +221,51 @@ function sendDataOpera(method,yaw_angle,pitch_angle,roll_angle,smile,age,male,ac
             	//updateProductInfo();
             //}
         	if(method=="getclassProduct"){
-        		var result = data.target.responseText;
+        		productResult = data.target.responseText;
         		//JSONObject resultJson = JSONObject.fromObject(result);
-        		updateHTML(result);
-                console.log(result);
+        		updateHTML(productResult);
+                console.log("得到新的人脸信息，并收到新的商品信息"+eval(productResult).length+"个");
+                initFaceData(yaw_angle,pitch_angle,roll_angle,smile,age,male);
+        	}else if(method=="updateclassProduct"){
+        		console.log("更新该人脸对商品信息的反馈信息，并收到新的商品信息:{年龄-->"+age+"}{性别-->"+male+"}{微笑指数-->"+getSmileLevel(smile)+"}{摇头指数-->"+getYawAngleLevel(yaw_angle)+"}");
         	}
         }
     };
     xmlhttp.send(data);
 }
-
+function getSmileLevel(val){
+	if(0<=val&&val<=20){
+        return 1;
+    }else if(20<val&&val<=40){
+    	return 2;
+    }else if(40<val&&val<=60){
+    	return 3;
+    }else if(60<val&&val<=80){
+    	return 4;
+    }else if(80<val&&val<=100){
+    	return 5;
+    }
+}
+function getYawAngleLevel(val){
+	if (-10 <= val && val <= 10) {
+		return 1;
+	} else if ((10 < val && val <= 20) || (-20 <= val && val < -10)) {
+		return 2;
+	} else if ((20 < val && val <= 30) || (-30 <= val && val < -20)) {
+		return 3;
+	} else if ((30 < val && val <= 40) || (-40 <= val && val < -30)) {
+		return 4;
+	} else if ((40 < val && val <= 50) || (-50 <= val && val < -40)) {
+		return 5;
+	}
+}
 function updateFaceInfo(data) {
     document.getElementById("sex").innerHTML=data.faces[0].attributes.gender.value;
 //    console.log(data.faces[0].attributes.gender.value);
     document.getElementById("age").innerHTML=data.faces[0].attributes.age.value;
-    if(0<=data.faces[0].attributes.smile.value&&data.faces[0].attributes.smile.value<=20){
-        document.getElementById("emoji").innerHTML="1";
-    }else if(20<data.faces[0].attributes.smile.value&&data.faces[0].attributes.smile.value<=40){
-        document.getElementById("emoji").innerHTML="2";
-    }else if(40<data.faces[0].attributes.smile.value&&data.faces[0].attributes.smile.value<=60){
-        document.getElementById("emoji").innerHTML="3";
-    }else if(60<data.faces[0].attributes.smile.value&&data.faces[0].attributes.smile.value<=80){
-        document.getElementById("emoji").innerHTML="4";
-    }else if(80<data.faces[0].attributes.smile.value&&data.faces[0].attributes.smile.value<=100){
-        document.getElementById("emoji").innerHTML="5";
-    }
-   document.getElementById("glass").innerHTML=data.faces[0].attributes.glass.value;
-
-   if(-10<=data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<=10){
-       document.getElementById("yaw").innerHTML="1";
-   }else if((10<data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<=20)
-       ||(-20<=data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<-10)){
-       document.getElementById("yaw").innerHTML="2";
-   }else if((20<data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<=30)
-       ||(-30<=data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<-20)){
-       document.getElementById("yaw").innerHTML="3";
-   }else if((30<data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<=40)
-       ||(-40<=data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<-30)){
-       document.getElementById("yaw").innerHTML="4";
-   }else if((40<data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<=50)
-       ||(-50<=data.faces[0].attributes.headpose.yaw_angle&&data.faces[0].attributes.headpose.yaw_angle<-40)){
-       document.getElementById("yaw").innerHTML="5";
-   }
+    document.getElementById("emoji").innerHTML=getSmileLevel(data.faces[0].attributes.smile.value);
+    document.getElementById("glass").innerHTML=data.faces[0].attributes.glass.value;
+    document.getElementById("yaw").innerHTML=getYawAngleLevel(data.faces[0].attributes.headpose.yaw_angle);
 }
 
 function updateProductInfo(){
@@ -290,4 +281,32 @@ function updateHTML(jsons){
 		goodsName.innerHTML = jsonObj.name;
 	}
 }
-setInterval(mytest,280);
+function initFaceData(yaw_angle,pitch_angle,roll_angle,smile,age,male){
+	global_yaw_angle=yaw_angle;
+    global_pitch_angle=pitch_angle;
+    global_roll_angle=roll_angle;
+    global_smile=smile;
+    global_age=age;
+    global_male=male;
+}
+function updateFaceData(afaces){
+	if(typeof(global_yaw_angle)=="undefined"||global_yaw_angle<afaces.attributes.headpose.yaw_angle.value)
+		global_yaw_angle=afaces.attributes.headpose.yaw_angle.value;
+	if(typeof(global_pitch_angle)=="undefined"||global_pitch_angle<afaces.attributes.headpose.pitch_angle.value)
+		global_pitch_angle=afaces.attributes.headpose.pitch_angle.value;
+	if(typeof(global_roll_angle)=="undefined"||global_roll_angle<afaces.attributes.headpose.roll_angle.value)
+		global_roll_angle=afaces.attributes.headpose.roll_angle.value;
+	if(typeof(global_smile)=="undefined"||global_smile<afaces.attributes.smile.value)
+		global_smile=afaces.attributes.smile.value;
+    global_age=afaces.attributes.age.value;
+    global_male=afaces.attributes.gender.value=="Female"?0:1;
+}
+function cleanFaceData(){
+	global_yaw_angle=undefined;
+    global_pitch_angle=undefined;
+    global_roll_angle=undefined;
+    global_smile=undefined;
+    global_age=undefined;
+    global_male=undefined;
+}
+setInterval(mytest,300);

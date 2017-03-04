@@ -7,16 +7,17 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>主页</title>
-		<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="./css/compiled/main.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/compiled/main.css">
 		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js">
 		</script>
 	        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js">
 	    </script>
+	    <script src="js/initData.js" ></script>
 		<script src="js/echarts.js" ></script>
-		<script src="./jquery-3.1.1.js"></script>
-		<script src="js/event.js"></script>
+		<script src="js/jquery-3.1.1.js"></script>
+		
 
 		<style>
 			.FROM
@@ -154,11 +155,11 @@
 						 </ul>
 						 <div class="price_recom">
 							 <!--今日价格-->
-							 <div id="lefthead">今日价格:</div>
+							 <div id="lefthead">今日价格:<span id="goodsPride">100</span></div>
 							 <div id="leftbody">
-								 <div><img src="img/tblogo.png"  class="xlogo"/>淘宝   ￥280</div>
-								 <div><img src="img/jdlogo.png" class="xlogo"/>京东   ￥360</div>
-								 <div><img src="img/amazonlogo.jpg" class="xlogo"/>亚马逊   ￥400</div>
+								 <div><img  src="img/tblogo.png"  class="xlogo"/>淘宝   ￥280</div>
+								 <div><img  src="img/jdlogo.png" class="xlogo"/>京东   ￥360</div>
+								 <div><img  src="img/amazonlogo.jpg" class="xlogo"/>亚马逊   ￥400</div>
 							 </div>
 
 							 <!--商品推荐-->
@@ -167,7 +168,7 @@
 									 根据店铺可信度,买家评论等<br>
 									 数据信息，推荐您去<br>
 
-									 <a href="https://item.taobao.com/item.htm?spm=a219r.lm874.14.130.ETgWc8&id=539888324153&ns=1&abbucket=11" target="_blank" style="text-decoration: none">
+									 <a id="goodUrl" href="https://item.taobao.com/item.htm?spm=a219r.lm874.14.130.ETgWc8&id=539888324153&ns=1&abbucket=11" target="_blank" style="text-decoration: none">
 										 <img src="img/tblogo.png" class="xlogo"/>淘宝
 									 </a>商城购买
 								 </div>
@@ -191,7 +192,7 @@
 			</div>
 
 		<script src="js/camera.js"></script>
-
+		<script src="js/event.js"></script>
 		<script>
 			var _hmt = _hmt || [];
 			(function() { var hm = document.createElement("script"); 

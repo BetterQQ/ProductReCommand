@@ -61,11 +61,23 @@ ZoomPic.prototype =
 	{
 		this.aSort.unshift(this.aSort.pop());
 		this.setUp()
+        if(productResult.length>0){
+        	MessageUpdate(this.aSort);
+        	var method="updateclassProduct";
+            sendDataOpera(method,global_yaw_angle,global_pitch_angle,global_roll_angle,global_smile,global_age,global_male,global_class);
+            cleanFaceData();
+        }
 	},
 	doNext : function ()
 	{
 		this.aSort.push(this.aSort.shift());
 		this.setUp()
+        if(productResult.length>0){
+        	MessageUpdate(this.aSort);
+        	var method="updateclassProduct";
+            sendDataOpera(method,global_yaw_angle,global_pitch_angle,global_roll_angle,global_smile,global_age,global_male,aclass);
+            cleanFaceData();
+        }
 	},
 	doImgClick : function ()
 	{
@@ -188,7 +200,6 @@ ZoomPic.prototype =
 				property == "opacity" && (iCur = parseInt(iCur.toFixed(2) * 100));
 				var iSpeed = (oAttr[property] - iCur) / 7;
 				iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-				
 				if (iCur != oAttr[property])
 				{
 					bStop = false;
@@ -206,5 +217,14 @@ ZoomPic.prototype =
 window.onload = function ()
 {
 	new ZoomPic("display_board");
-	
 };
+function MessageUpdate(aSort){
+	var arr = eval(productResult);
+	var lefthead = document.getElementById("goodsPride");
+	var goodUrl = document.getElementById("goodUrl");
+	
+	var jsonObj = arr[parseInt(aSort[3].id.substring(5))]; //获取json对象
+	//console.log(jsonObj);
+	goodUrl.href = jsonObj.tburl;
+	lefthead.innerHTML = jsonObj.pride;
+}
