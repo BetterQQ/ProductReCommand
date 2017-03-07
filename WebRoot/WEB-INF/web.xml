@@ -28,5 +28,11 @@
         <welcome-file>default.htm</welcome-file>
         <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
-
+    <system.web.extensions>
+        <scripting>
+            <webServices>
+                <jsonSerialization maxJsonLength="#####"/>
+            </webServices>
+        </scripting>
+    </system.web.extensions>
 </web-app>

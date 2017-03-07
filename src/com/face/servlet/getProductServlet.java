@@ -99,6 +99,7 @@ public class getProductServlet extends HttpServlet {
 		 
 		    case "updateclassProduct":
 		    	  updateclassProduct(productid,male,age,yaw_angle,pitch_angle,roll_angle,smile);
+		    	  System.out.println("updateclassProduct......");
 		    	  break;
 		    	
 		    case "initProduct":

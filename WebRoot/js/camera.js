@@ -291,11 +291,11 @@ function initFaceData(yaw_angle,pitch_angle,roll_angle,smile,age,male){
 }
 function updateFaceData(afaces){
 	if(typeof(global_yaw_angle)=="undefined"||global_yaw_angle<afaces.attributes.headpose.yaw_angle.value)
-		global_yaw_angle=afaces.attributes.headpose.yaw_angle.value;
+		global_yaw_angle=afaces.attributes.headpose.yaw_angle;
 	if(typeof(global_pitch_angle)=="undefined"||global_pitch_angle<afaces.attributes.headpose.pitch_angle.value)
-		global_pitch_angle=afaces.attributes.headpose.pitch_angle.value;
+		global_pitch_angle=afaces.attributes.headpose.pitch_angle;
 	if(typeof(global_roll_angle)=="undefined"||global_roll_angle<afaces.attributes.headpose.roll_angle.value)
-		global_roll_angle=afaces.attributes.headpose.roll_angle.value;
+		global_roll_angle=afaces.attributes.headpose.roll_angle;
 	if(typeof(global_smile)=="undefined"||global_smile<afaces.attributes.smile.value)
 		global_smile=afaces.attributes.smile.value;
     global_age=afaces.attributes.age.value;
